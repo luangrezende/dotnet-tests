@@ -2,81 +2,81 @@
 {
     public class MegaSena
     {
-        public List<List<int>> NumerosJogados { get; set; }
+        public List<List<int>> NumerPlayed { get; set; }
 
         public MegaSena() {
-            NumerosJogados = new List<List<int>>();
-            GerarNumerosJogados();
+            NumerPlayed = new List<List<int>>();
+            GeneratePlayedNumbers();
         }
 
         public void GetWinner()
         {
-            var encontrandoNumero = true;
+            var findingNumber = true;
 
-            while (encontrandoNumero)
+            while (findingNumber)
             {
-                var numeroSorteado = GerarNumeroSorteado();
+                var sortedNumber = GenereteSortedNumber();
 
                 //teste apenas
                 //NumerosJogados.Add(numeroSorteado);
 
-                var temGanhador = VerifyIfAllNumbersExists(numeroSorteado);
+                var containsWinner = VerifyIfAllNumbersExists(sortedNumber);
 
-                if (temGanhador)
-                    Console.WriteLine("NUMERO EXISTENTE NA LISTA - RODANDO NOVAMENTE...");
+                if (containsWinner)
+                    Console.WriteLine("The list contains the number sorted - Loading again...");
                 else
                 {
-                    Console.WriteLine($"NÃO TEM GANHADOR NA LISTA - NUMERO SORTEADO: {string.Join(", ", numeroSorteado)}");
-                    encontrandoNumero = false;
+                    Console.WriteLine($"Sorted Number: {string.Join(", ", sortedNumber)}");
+                    findingNumber = false;
                 }
             }
         }
 
-        private bool VerifyIfAllNumbersExists(List<int> numeroSorteado)
+        private bool VerifyIfAllNumbersExists(List<int> sortedNumber)
         {
-            var limitePontos = 6;
-            var pontos = 0;
+            var pointsLimit = 6;
+            var points = 0;
 
-            foreach (var numbersPlayed in NumerosJogados)
+            foreach (var numbersPlayed in NumerPlayed)
             {
-                pontos = 0;
-                foreach (var number in numeroSorteado)
+                points = 0;
+                foreach (var number in sortedNumber)
                 {
                     var contais = numbersPlayed.Contains(number);
 
                     if (contais)
-                        pontos++;
+                        points++;
                 }
             }
 
-            return pontos >= limitePontos;
+            return points >= pointsLimit;
         }
 
-        public void GerarNumerosJogados()
+        public void GeneratePlayedNumbers()
         {
             var limit = 150;
-            var quantidadeNumerosGerados = 0;
+            var quantityGeneratedNumbers = 0;
 
-            while (limit > quantidadeNumerosGerados)
+            while (limit > quantityGeneratedNumbers)
             {
-                NumerosJogados.Add(GerarNumeroSorteado());
-                quantidadeNumerosGerados++;
+                NumerPlayed.Add(GenereteSortedNumber());
+                quantityGeneratedNumbers++;
             }
         }
 
-        public List<int> GerarNumeroSorteado()
+        public List<int> GenereteSortedNumber()
         {
-            var numeroSorteado = new List<int>();
+            var sortedNumbers = new List<int>();
             for (int i = 0; i < 6; i++)
             {
                 var random = new Random();
-                var numeroGerado = random.Next(1, 99);
+                var generatedNumber = random.Next(1, 99);
 
-                numeroSorteado.Add(numeroGerado);
+                sortedNumbers.Add(generatedNumber);
             }
 
-            numeroSorteado.Sort();
-            return numeroSorteado;
+            sortedNumbers.Sort();
+            return sortedNumbers;
         }
     }
 }
