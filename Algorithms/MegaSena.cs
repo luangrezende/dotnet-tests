@@ -18,7 +18,7 @@
                 var sortedNumber = GenereteSortedNumber();
 
                 //teste apenas
-                //NumerosJogados.Add(numeroSorteado);
+                //NumberPlayed.Add(sortedNumber);
 
                 var containsWinner = VerifyIfAllNumbersExists(sortedNumber);
 
@@ -35,11 +35,10 @@
         private bool VerifyIfAllNumbersExists(List<int> sortedNumber)
         {
             var pointsLimit = 6;
-            var points = 0;
 
             foreach (var numbersPlayed in NumberPlayed)
             {
-                points = 0;
+                var points = 0;
                 foreach (var number in sortedNumber)
                 {
                     var contais = numbersPlayed.Contains(number);
@@ -47,9 +46,12 @@
                     if (contais)
                         points++;
                 }
+
+                if (points >= pointsLimit)
+                    return true;
             }
 
-            return points >= pointsLimit;
+            return false;
         }
 
         public void GeneratePlayedNumbers()
