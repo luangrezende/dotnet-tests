@@ -1,4 +1,6 @@
-﻿namespace TestApp.Algorithms
+﻿using TestApp.Enums;
+
+namespace TestApp.Algorithms
 {
     public class MegaSena
     {
@@ -34,8 +36,6 @@
 
         private bool VerifyIfAllNumbersExists(List<int> sortedNumber)
         {
-            var pointsLimit = 6;
-
             foreach (var numbersPlayed in NumberPlayed)
             {
                 var points = 0;
@@ -47,7 +47,7 @@
                         points++;
                 }
 
-                if (points >= pointsLimit)
+                if (points >= (int)MegaSenaEnum.pointsLimit)
                     return true;
             }
 
@@ -56,10 +56,9 @@
 
         public void GeneratePlayedNumbers()
         {
-            var limit = 150;
             var quantityGeneratedNumbers = 0;
 
-            while (limit > quantityGeneratedNumbers)
+            while ((int)MegaSenaEnum.limitPlays > quantityGeneratedNumbers)
             {
                 NumberPlayed.Add(GenereteSortedNumber());
                 quantityGeneratedNumbers++;
