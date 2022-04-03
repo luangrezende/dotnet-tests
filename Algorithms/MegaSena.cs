@@ -2,10 +2,10 @@
 {
     public class MegaSena
     {
-        public List<List<int>> NumerPlayed { get; set; }
+        public List<List<int>> NumberPlayed { get; set; }
 
         public MegaSena() {
-            NumerPlayed = new List<List<int>>();
+            NumberPlayed = new List<List<int>>();
             GeneratePlayedNumbers();
         }
 
@@ -37,7 +37,7 @@
             var pointsLimit = 6;
             var points = 0;
 
-            foreach (var numbersPlayed in NumerPlayed)
+            foreach (var numbersPlayed in NumberPlayed)
             {
                 points = 0;
                 foreach (var number in sortedNumber)
@@ -59,7 +59,7 @@
 
             while (limit > quantityGeneratedNumbers)
             {
-                NumerPlayed.Add(GenereteSortedNumber());
+                NumberPlayed.Add(GenereteSortedNumber());
                 quantityGeneratedNumbers++;
             }
         }
