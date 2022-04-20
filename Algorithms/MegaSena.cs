@@ -19,7 +19,7 @@ namespace TestApp.Algorithms
             {
                 var sortedNumber = GenereteSortedNumber();
 
-                //teste apenas
+                //to test only
                 //NumberPlayed.Add(sortedNumber);
 
                 var containsWinner = VerifyIfAllNumbersExists(sortedNumber);
