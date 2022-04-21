@@ -1,9 +1,10 @@
-﻿using TestApp.Enums;
-
-namespace TestApp.Algorithms
+﻿namespace TestApp.Algorithms
 {
     public class MegaSena
     {
+        private const int LimitPlays = 10000000;
+        private const int PointsLimit = 6;
+
         public List<List<int>> NumberPlayed { get; set; }
 
         public MegaSena() {
@@ -47,7 +48,7 @@ namespace TestApp.Algorithms
                         points++;
                 }
 
-                if (points >= (int)MegaSenaEnum.pointsLimit)
+                if (points >= PointsLimit)
                     return true;
             }
 
@@ -58,7 +59,7 @@ namespace TestApp.Algorithms
         {
             var quantityGeneratedNumbers = 0;
 
-            while ((int)MegaSenaEnum.limitPlays > quantityGeneratedNumbers)
+            while (LimitPlays > quantityGeneratedNumbers)
             {
                 NumberPlayed.Add(GenereteSortedNumber());
                 quantityGeneratedNumbers++;

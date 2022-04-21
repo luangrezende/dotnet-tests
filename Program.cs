@@ -1,7 +1,7 @@
 ﻿using TestApp.Algorithms;
 
-//var megaSenha = new MegaSena();
-//megaSenha.GetWinner();
+var megaSenha = new MegaSena();
+megaSenha.GetWinner();
 
-var quickSearch = new QuickSearch();
-quickSearch.Start();
+//var quickSearch = new QuickSearch();
+//quickSearch.Start();
