@@ -2,37 +2,29 @@
 {
     public class MegaSena
     {
-        private const int LimitPlays = 10000000;
-        private const int PointsLimit = 6;
+        public int LimitPlays { get; }
+        public int PointsLimit { get; }
 
         public List<List<int>> NumberPlayed { get; set; }
 
-        public MegaSena() {
+        public MegaSena(int limitPlays, int limitPoints) {
+            LimitPlays = limitPlays;
+            PointsLimit = limitPoints;
             NumberPlayed = new List<List<int>>();
             GeneratePlayedNumbers();
         }
 
-        public void GetWinner()
+        public List<int> GetWinnerWithNormalMethod()
         {
             var findingNumber = true;
+            var sortedNumber = new List<int>();
 
             while (findingNumber)
             {
-                var sortedNumber = GenereteSortedNumber();
-
-                //to test only
-                //NumberPlayed.Add(sortedNumber);
-
-                var containsWinner = VerifyIfAllNumbersExists(sortedNumber);
-
-                if (containsWinner)
-                    Console.WriteLine("The list contains the number sorted - Loading again...");
-                else
-                {
-                    Console.WriteLine($"Sorted Number: {string.Join(", ", sortedNumber)}");
-                    findingNumber = false;
-                }
+                sortedNumber = GenereteSortedNumber();
+                findingNumber = VerifyIfAllNumbersExists(sortedNumber);
             }
+            return sortedNumber;
         }
 
         private bool VerifyIfAllNumbersExists(List<int> sortedNumber)
@@ -55,7 +47,7 @@
             return false;
         }
 
-        public void GeneratePlayedNumbers()
+        private void GeneratePlayedNumbers()
         {
             var quantityGeneratedNumbers = 0;
 
@@ -66,7 +58,7 @@
             }
         }
 
-        public List<int> GenereteSortedNumber()
+        private static List<int> GenereteSortedNumber()
         {
             var sortedNumbers = new List<int>();
             for (int i = 0; i < 6; i++)

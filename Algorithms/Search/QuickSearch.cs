@@ -1,9 +1,15 @@
 ﻿using System.Diagnostics;
+using TestApp.Utils;
 
-namespace TestApp.Algorithms
+namespace TestApp.Algorithms.Search
 {
     public class QuickSearch
     {
+        public int NumberToFind { get; }
+        public int ArrayCount { get; }
+
+        private int Loop { get; set; }
+        private List<int> Array { get; set; }
         private const string NormalSearchFor = "Normal Search For";
         private const string NormalSearchForEach = "Normal Search ForEach";
         private const string BinaryWhile = "Binary Search While";
@@ -11,49 +17,13 @@ namespace TestApp.Algorithms
         private const string LambdaWhereSearch = "Lambda Search Where";
         private const string LambdaFindSearch = "Lambda Search Find";
         private const string LinqSearch = "Linq Search Where";
-        private const int NumberToFind = 999999;
-
-        public int Loop { get; set; }
-        public List<int> Array { get; set; }
-
-        public QuickSearch()
+        
+        public QuickSearch(int numberToFind, int arrayLimit)
         {
             Loop = 0;
-            Array = GenerateArray(9999999);
-        }
-
-        public void Start()
-        {
-            Console.WriteLine($"Array Lenght: {Array.Count}");
-            Console.WriteLine($"Number to find: {NumberToFind}");
-
-            FindNumberBinarySearchWhile();
-            FindNumberBinarySearchRecursive();
-            FindNumberWithNormalSearchFor();
-            FindNumberWithNormalSearchForEach();
-            FindNumberWithLambdaWhere();
-            FindNumberWithLambdaFind();
-            FindNumberWithLinq();
-        }
-
-        private static List<int> GenerateArray(int count)
-        {
-            var index = 1;
-            List<int> list = new();
-
-            while (list.Count < count)
-            {
-                Random random = new();
-                var look = random.Next(1, 4);
-
-                if (look == 2)
-                    list.Add(index);
-
-                list.Add(index);
-                index++;
-            }
-
-            return list;
+            NumberToFind = numberToFind;
+            Array = ArrayUtil.GenerateOrdenedAndDuplicatedValuesArray(arrayLimit);
+            ArrayCount = Array.Count;
         }
 
         private int BinarySearchWithWhile(List<int> array, int number)
@@ -94,7 +64,7 @@ namespace TestApp.Algorithms
                 return BinarySearchRecursive(array, number, midPoint + 1, upperBound);
         }
 
-        private void FindNumberBinarySearchWhile()
+        public void FindNumberBinarySearchWhile()
         {
             Loop = 0;
             Stopwatch timer = new();
@@ -103,10 +73,10 @@ namespace TestApp.Algorithms
             var result = BinarySearchWithWhile(Array, NumberToFind);
 
             timer.Stop();
-            PrintResult(result != 0, BinaryWhile, timer.Elapsed.TotalMilliseconds, Loop);
+            PrintUtil.PrintResultAndTimelapse(result != 0, BinaryWhile, timer.Elapsed.TotalMilliseconds, Loop);
         }
 
-        private void FindNumberBinarySearchRecursive()
+        public void FindNumberBinarySearchRecursive()
         {
             Loop = 0;
             Stopwatch timer = new();
@@ -115,10 +85,10 @@ namespace TestApp.Algorithms
             var result = BinarySearchRecursive(Array, NumberToFind, 1, Array.Count - 1);
 
             timer.Stop();
-            PrintResult(result != 0, BinaryRecursive, timer.Elapsed.TotalMilliseconds, Loop);
+            PrintUtil.PrintResultAndTimelapse(result != 0, BinaryRecursive, timer.Elapsed.TotalMilliseconds, Loop);
         }
 
-        private void FindNumberWithNormalSearchFor()
+        public void FindNumberWithNormalSearchFor()
         {
             Loop = 0;
             Stopwatch timer = new();
@@ -127,19 +97,19 @@ namespace TestApp.Algorithms
             var result = ForSearch();
 
             timer.Stop();
-            PrintResult(result, NormalSearchFor, timer.Elapsed.TotalMilliseconds, Loop);
+            PrintUtil.PrintResultAndTimelapse(result, NormalSearchFor, timer.Elapsed.TotalMilliseconds, Loop);
         }
 
-        private void FindNumberWithNormalSearchForEach()
+        public void FindNumberWithNormalSearchForEach()
         {
             Loop = 0;
             Stopwatch timer = new();
             timer.Start();
 
-            var result = ForSearchEach();
+            var result = ForEachSearch();
 
             timer.Stop();
-            PrintResult(result, NormalSearchForEach, timer.Elapsed.TotalMilliseconds, Loop);
+            PrintUtil.PrintResultAndTimelapse(result, NormalSearchForEach, timer.Elapsed.TotalMilliseconds, Loop);
         }
 
         private bool ForSearch()
@@ -155,7 +125,7 @@ namespace TestApp.Algorithms
             return false;
         }
 
-        private bool ForSearchEach()
+        private bool ForEachSearch()
         {
             foreach (var item in Array)
             {
@@ -167,7 +137,7 @@ namespace TestApp.Algorithms
             return false;
         }
 
-        private void FindNumberWithLambdaWhere()
+        public void FindNumberWithLambdaWhere()
         {
             Loop = 0;
             Stopwatch timer = new();
@@ -176,10 +146,10 @@ namespace TestApp.Algorithms
             var result = Array.Where(x => x.Equals(NumberToFind)).FirstOrDefault();
 
             timer.Stop();
-            PrintResult(result != 0, LambdaWhereSearch, timer.Elapsed.TotalMilliseconds, Loop);
+            PrintUtil.PrintResultAndTimelapse(result != 0, LambdaWhereSearch, timer.Elapsed.TotalMilliseconds, Loop);
         }
 
-        private void FindNumberWithLambdaFind()
+        public void FindNumberWithLambdaFind()
         {
             Loop = 0;
             Stopwatch timer = new();
@@ -188,10 +158,10 @@ namespace TestApp.Algorithms
             var result = Array.Find(x => x.Equals(NumberToFind));
 
             timer.Stop();
-            PrintResult(result != 0, LambdaFindSearch, timer.Elapsed.TotalMilliseconds, Loop);
+            PrintUtil.PrintResultAndTimelapse(result != 0, LambdaFindSearch, timer.Elapsed.TotalMilliseconds, Loop);
         }
 
-        private void FindNumberWithLinq()
+        public void FindNumberWithLinq()
         {
             Loop = 0;
             Stopwatch timer = new();
@@ -204,15 +174,7 @@ namespace TestApp.Algorithms
             var resultInt = result.FirstOrDefault();
 
             timer.Stop();
-            PrintResult(resultInt != 0, LinqSearch, timer.Elapsed.TotalMilliseconds, Loop);
-        }
-
-        private static void PrintResult(bool success, string searchType, double milliseconds, int loop)
-        {
-            if (success)
-                Console.WriteLine($"[{searchType}][Timer: {milliseconds}] {loop} loops before find the number.");
-            else
-                Console.WriteLine($"[{searchType}][Timer: {milliseconds}] {loop} loops, number not fount.");
+            PrintUtil.PrintResultAndTimelapse(resultInt != 0, LinqSearch, timer.Elapsed.TotalMilliseconds, Loop);
         }
     }
 }
